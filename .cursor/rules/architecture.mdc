@@ -1,0 +1,16 @@
+---
+description: Hackathon Master Repo architecture and frontend rules
+alwaysApply: true
+---
+
+- Read `AGENTS.md` and `docs/ARCHITECTURE.md` before substantial changes.
+- Preserve the existing Next.js App Router boundaries.
+- Prefer semantic HTML and CSS/Tailwind before JavaScript for layout and simple interactions.
+- Use `components/ui/` for generic primitives, `components/` for product components, `components/motion/` for GSAP, `components/visualization/` for R3F, `store/` for small shared client state, and `lib/` for integrations/helpers.
+- Keep client components at the smallest interactive boundary.
+- Use Lenis only for app-level smooth scrolling; respect reduced motion and clean up.
+- Use GSAP + `@gsap/react` for complex DOM animation; use `useGSAP()`.
+- Use R3F/Drei for Three.js scenes and lazy-load heavy WebGL.
+- Use Zustand only when state is shared across distant client components.
+- Reuse existing primitives before adding dependencies.
+- Run `npm run typecheck`, `npm run lint`, and `npm run build` before declaring work complete.
