@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ArrowUpRight, Database, Layers3, Sparkles } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,8 @@ export default async function DashboardPage() {
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     const supabase = await createSupabaseServerClient();
     const { data } = await supabase.auth.getUser();
-    email = data.user?.email ?? null;
+    if (!data.user) redirect("/login");
+    email = data.user.email ?? null;
   }
 
   return (
