@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@tailwindcss/postcss": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",
     "lucide-react": "latest",
