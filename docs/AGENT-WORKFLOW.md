@@ -7,7 +7,7 @@ This repository is designed for Codex, Cursor, Claude Code, and similar coding a
 ### 1. Inspect
 Read `AGENTS.md`, `README.md`, `docs/ARCHITECTURE.md`, `package.json`, and only the files relevant to the requested feature.
 
-Do not start by rewriting the repository. Find the closest existing component/pattern first.
+Do not start by rewriting the repository. Find the closest existing component or pattern first.
 
 ### 2. Plan
 For work larger than a small edit, produce a compact plan with:
@@ -32,13 +32,8 @@ npm run typecheck
 npm run lint
 npm run build
 ```
-For UI features additionally verify:
-- semantic HTML
-- keyboard navigation/focus
-- responsive behavior
-- reduced-motion behavior
-- loading/empty/error/success states
-- no unnecessary client components
+
+For UI features additionally verify semantic HTML, keyboard navigation/focus, responsive behavior, reduced-motion behavior, loading/empty/error/success states, and unnecessary client components.
 
 ### 5. Fix
 If validation fails:
@@ -83,13 +78,13 @@ Constraints: [constraints]
 </acceptance>
 ```
 
-This matches the current recommendation to give agents structured context, scope, explicit actions, and acceptance criteria rather than vague "build this" instructions. citehttps://openai.com/business/guides-and-resources/how-openai-uses-codex/
+This format is intentional: agents perform better when the task has explicit scope, context, actions, and acceptance criteria instead of a vague request.
 
 ## Codex
-Start large changes in planning/Ask mode, then implement. Keep `AGENTS.md` as the short repository map and use this document for the workflow details. This follows OpenAI's current Codex guidance. citehttps://openai.com/index/harness-engineering/
+For large changes, start in planning/Ask mode, then switch to implementation. Keep `AGENTS.md` short; use this document as the deeper workflow reference.
 
 ## Cursor
-Use `.cursor/rules/` for persistent scoped rules and `.cursor/commands/` for repeatable workflows. `AGENTS.md` remains the cross-agent architecture map. citehttps://docs.cursor.com/context/rules
+Use `.cursor/rules/` for persistent scoped rules and `.cursor/commands/` for repeatable workflows. `AGENTS.md` remains the cross-agent architecture map.
 
 ## Claude Code
-Use `CLAUDE.md` for project instructions. Keep it concise and reference this workflow/architecture documentation when more detail is needed. Claude Code loads project memory automatically. citehttps://docs.anthropic.com/zh-CN/docs/claude-code/memory
+Use `CLAUDE.md` for project instructions and keep detailed workflow guidance in `docs/`.
