@@ -7,11 +7,15 @@ A reusable Next.js 16 foundation for building polished full-stack hackathon prod
 - Next.js 16.3.x + App Router
 - React 19.2.x
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS 4 + PostCSS
 - Supabase SSR + browser/server clients
 - Zod for runtime validation
 - Lucide icons
-- CVA + `cn()` for reusable UI primitives
+- Zustand for focused shared client state
+- Lenis for smooth scrolling
+- GSAP + `@gsap/react` for complex motion
+- Three.js + React Three Fiber + Drei for isolated visualization
+- Native semantic HTML and modern CSS progressive enhancement
 - OpenAI Responses API integration hook
 - Vercel-friendly deployment
 - GitHub Actions CI
@@ -26,13 +30,34 @@ app/                 Routes, pages, route handlers, boundaries
   login/             Example Supabase magic-link flow
 components/          Product-specific reusable UI
 components/ui/       Small, composable UI primitives
+components/motion/   Lenis/GSAP motion primitives
+components/providers/Global client providers
+components/visualization/ WebGL/3D primitives
 lib/                 Integrations, validation, AI and utilities
   ai/                Browser-safe AI client helpers
   supabase/          Browser/server Supabase clients
+store/               Small domain-focused Zustand stores
 proxy.ts             Request/session cookie refresh boundary
 AGENTS.md            Instructions for AI coding agents
 .github/workflows/   Automated typecheck, lint and build verification
 ```
+
+## HTML + CSS foundation
+
+The frontend uses platform capabilities before adding JavaScript:
+
+- Semantic landmarks and correct heading hierarchy
+- Native `button`, `form`, `label`, `fieldset`, `details/summary`, `dialog`, and popover patterns where appropriate
+- Native form constraint validation, `autocomplete`, `inputmode`, and correct input types
+- `focus-visible`, reduced-motion support, and inert UI regions for accessibility
+- CSS custom properties and cascade layers for global design tokens
+- `clamp()`, `minmax()`, Grid, Flexbox, logical properties, `aspect-ratio`, and intrinsic sizing for resilient layouts
+- Container queries for reusable components that respond to their own width
+- `subgrid` with a fallback for aligned repeated card layouts
+- `color-mix()` for derived surfaces and focus/selection styling
+- CSS scroll-driven animations as progressive enhancement; no JavaScript dependency for simple reveal/progress effects
+
+Global CSS stays limited to tokens, reset/accessibility rules, reusable layout utilities, and progressive enhancement. Product styling should normally live with the component through Tailwind.
 
 ## First run
 
@@ -54,7 +79,7 @@ Use an AI coding agent after reading `AGENTS.md`. Ask the agent to inspect the e
 
 A good project-start prompt is:
 
-> Read `AGENTS.md`, inspect the existing architecture, and implement the requested feature without rewriting unrelated code. Reuse existing UI primitives and integrations. Handle loading, empty, error, and success states. Run `npm run typecheck`, `npm run lint`, and `npm run build`, then fix any errors you introduced.
+> Read `AGENTS.md`, inspect the existing architecture, and implement the requested feature without rewriting unrelated code. Reuse existing UI primitives and integrations. Prefer semantic HTML and CSS-first solutions before adding JavaScript. Handle loading, empty, error, and success states. Run `npm run typecheck`, `npm run lint`, and `npm run build`, then fix any errors you introduced.
 
 ## Hackathon workflow
 
@@ -63,7 +88,8 @@ A good project-start prompt is:
 3. Add feature routes under `app/` and matching APIs under `app/api/`.
 4. Use Supabase for auth/data when the project needs persistence.
 5. Use `/api/ai` as the starting point for AI-backed server actions.
-6. Deploy to Vercel.
+6. Use motion and visualization primitives only where they improve the product.
+7. Deploy to Vercel.
 
 ## Engineering rule
 
