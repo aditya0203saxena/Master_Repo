@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>i-Recon Web — Facial Gesture Assist</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ASSISTIVE COMPUTER VISION</p>
+        <h1>i-Recon Web</h1>
+        <p class="subtitle">Browser-based blink detection prototype inspired by the original i-Recon project.</p>
+      </div>
+      <div class="status-pill" id="statusPill">Camera off</div>
+    </header>
+
+    <section class="grid">
+      <section class="panel camera-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Camera</h2>
+            <p>Camera frames are processed in your browser.</p>
+          </div>
+          <span class="dot" id="cameraDot"></span>
+        </div>
+
+        <div class="video-wrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay" aria-hidden="true"></canvas>
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <strong>Camera access required</strong>
+            <span>Click “Enable camera” to begin.</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="startBtn" class="primary">Enable camera</button>
+          <button id="stopBtn" class="secondary" disabled>Stop camera</button>
+          <button id="resetBtn" class="secondary">Reset count</button>
+        </div>
+
+        <div class="error" id="errorBox" hidden></div>
+      </section>
+
+      <aside class="panel metrics-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Facial controls</h2>
+            <p>Gesture-to-command communication layer.</p>
+          </div>
+        </div>
+
+        <div class="metric-card highlight command-card">
+          <span>Last command</span>
+          <strong id="commandOutput">Waiting…</strong>
+          <small id="commandHint">Enable the camera and perform a gesture.</small>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-card">
+            <span>Blinks detected</span>
+            <strong id="blinkCount">0</strong>
+          </div>
+          <div class="metric-card">
+            <span>Eye openness</span>
+            <strong id="eyeRatio">—</strong>
+          </div>
+        </div>
+
+        <div class="metric-row compact-metrics">
+          <div class="metric-card">
+            <span>Gaze</span>
+            <strong id="gazeState">Center</strong>
+          </div>
+          <div class="metric-card">
+            <span>Face</span>
+            <strong id="faceState">Not found</strong>
+          </div>
+        </div>
+
+        <div class="gesture-state" id="gestureState">Waiting for camera</div>
+
+        <div class="gesture-map">
+          <div class="gesture-map-head">
+            <h3>Gesture controls</h3>
+            <span>Prototype mappings</span>
+          </div>
+          <div class="gesture-item"><span class="gesture-badge">1× blink</span><strong>YES</strong></div>
+          <div class="gesture-item"><span class="gesture-badge">2× blink</span><strong>NO</strong></div>
+          <div class="gesture-item"><span class="gesture-badge">Look left</span><strong>FOOD OR WATER</strong></div>
+          <div class="gesture-item"><span class="gesture-badge">Look right</span><strong>RESTROOM</strong></div>
+          <div class="gesture-item"><span class="gesture-badge">Raise eyebrow</span><strong>PAIN</strong></div>
+          <div class="gesture-item"><span class="gesture-badge">Mouth movement</span><strong>CALL CAREGIVER</strong></div>
+        </div>
+
+        <div class="info-box">
+          <h3>Detection pipeline</h3>
+          <p>Face landmarks are tracked locally in the browser. Temporal filtering turns eye, gaze, eyebrow and mouth movement into intentional commands. Calibration should be performed for each user.</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      Prototype only — not a medical device. Detection thresholds should be calibrated for each user before assistive use.
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
