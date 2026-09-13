@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>i-Recon Web — Facial Gesture Assist</title>
+  <title>i-Recon Web — Assistive Communication</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,7 +12,7 @@
       <div>
         <p class="eyebrow">ASSISTIVE COMPUTER VISION</p>
         <h1>i-Recon Web</h1>
-        <p class="subtitle">Browser-based blink detection prototype inspired by the original i-Recon project.</p>
+        <p class="subtitle">Assistive computer vision for facial communication and automatic fall-risk alerts.</p>
       </div>
       <div class="status-pill" id="statusPill">Camera off</div>
     </header>
@@ -20,74 +20,66 @@
     <section class="grid">
       <section class="panel camera-panel">
         <div class="panel-head">
-          <div>
-            <h2>Camera</h2>
-            <p>Camera frames are processed in your browser.</p>
-          </div>
+          <div><h2>Camera</h2><p>Camera frames are processed in your browser.</p></div>
           <span class="dot" id="cameraDot"></span>
         </div>
-
         <div class="video-wrap">
           <video id="video" autoplay playsinline muted></video>
           <canvas id="overlay" aria-hidden="true"></canvas>
           <div class="camera-placeholder" id="cameraPlaceholder">
-            <strong>Camera access required</strong>
-            <span>Click “Enable camera” to begin.</span>
+            <strong>Camera access required</strong><span>Click “Enable camera” to begin.</span>
           </div>
         </div>
-
         <div class="controls">
           <button id="startBtn" class="primary">Enable camera</button>
           <button id="stopBtn" class="secondary" disabled>Stop camera</button>
-          <button id="resetBtn" class="secondary">Reset count</button>
+          <button id="resetBtn" class="secondary">Reset detection</button>
         </div>
-
         <div class="error" id="errorBox" hidden></div>
       </section>
 
       <aside class="panel metrics-panel">
         <div class="panel-head">
-          <div>
-            <h2>Facial controls</h2>
-            <p>Gesture-to-command communication layer.</p>
-          </div>
+          <div><h2>Facial controls</h2><p>Gesture-to-command communication layer.</p></div>
         </div>
-
         <div class="metric-card highlight command-card">
-          <span>Last command</span>
-          <strong id="commandOutput">Waiting…</strong>
+          <span>Last command</span><strong id="commandOutput">Waiting…</strong>
           <small id="commandHint">Enable the camera and perform a gesture.</small>
         </div>
-
         <div class="metric-row">
-          <div class="metric-card">
-            <span>Blinks detected</span>
-            <strong id="blinkCount">0</strong>
-          </div>
-          <div class="metric-card">
-            <span>Eye openness</span>
-            <strong id="eyeRatio">—</strong>
-          </div>
+          <div class="metric-card"><span>Blinks detected</span><strong id="blinkCount">0</strong></div>
+          <div class="metric-card"><span>Eye openness</span><strong id="eyeRatio">—</strong></div>
         </div>
-
         <div class="metric-row compact-metrics">
-          <div class="metric-card">
-            <span>Gaze</span>
-            <strong id="gazeState">Center</strong>
-          </div>
-          <div class="metric-card">
-            <span>Face</span>
-            <strong id="faceState">Not found</strong>
-          </div>
+          <div class="metric-card"><span>Gaze</span><strong id="gazeState">Center</strong></div>
+          <div class="metric-card"><span>Face</span><strong id="faceState">Not found</strong></div>
         </div>
-
         <div class="gesture-state" id="gestureState">Waiting for camera</div>
 
-        <div class="gesture-map">
-          <div class="gesture-map-head">
-            <h3>Gesture controls</h3>
-            <span>Prototype mappings</span>
+        <div class="hazard-card" id="hazardCard">
+          <div class="hazard-head">
+            <div><h3>Safety / Hazard Detection</h3><p>Pose-based fall detection runs locally with the camera feed.</p></div>
+            <span class="hazard-badge safe" id="hazardStatus">MONITORING</span>
           </div>
+          <div class="hazard-metrics">
+            <div><span>Hazard</span><strong id="hazardType">None</strong></div>
+            <div><span>Confidence</span><strong id="hazardConfidence">—</strong></div>
+            <div><span>Posture</span><strong id="postureState">Unknown</strong></div>
+          </div>
+        </div>
+
+        <div class="communication-panel" id="communicationPanel">
+          <div class="communication-head">
+            <div><h3>Communication</h3><p>Patient requests and automatic safety alerts appear here.</p></div>
+            <span class="message-count" id="messageCount">0 events</span>
+          </div>
+          <div class="message-feed" id="messageFeed">
+            <div class="message-empty" id="messageEmpty">No communication events yet.</div>
+          </div>
+        </div>
+
+        <div class="gesture-map">
+          <div class="gesture-map-head"><h3>Gesture controls</h3><span>Prototype mappings</span></div>
           <div class="gesture-item"><span class="gesture-badge">1× blink</span><strong>YES</strong></div>
           <div class="gesture-item"><span class="gesture-badge">2× blink</span><strong>NO</strong></div>
           <div class="gesture-item"><span class="gesture-badge">Look left</span><strong>FOOD OR WATER</strong></div>
@@ -98,17 +90,16 @@
 
         <div class="info-box">
           <h3>Detection pipeline</h3>
-          <p>Face landmarks are tracked locally in the browser. Temporal filtering turns eye, gaze, eyebrow and mouth movement into intentional commands. Calibration should be performed for each user.</p>
+          <p>Face landmarks drive intentional communication gestures. A separate pose model watches for rapid downward movement followed by a collapsed posture. A confirmed fall becomes a Communication event and is also sent to the configured caregiver alert channel.</p>
         </div>
       </aside>
     </section>
 
-    <footer>
-      Prototype only — not a medical device. Detection thresholds should be calibrated for each user before assistive use.
-    </footer>
+    <footer>Engineering prototype — not a medical device. Fall thresholds should be validated for the intended environment and user.</footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/pose.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
