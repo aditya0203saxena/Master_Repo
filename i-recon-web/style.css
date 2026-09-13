@@ -66,3 +66,24 @@ footer { margin-top:18px; color:#6f8191; font-size:12px; }
 .gesture-item:last-child { border-bottom: 0; }
 .gesture-item strong { color: #f1f6fb; font-size: 13px; }
 .gesture-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 5px 9px; border-radius: 999px; background: #101f2c; border: 1px solid #243746; color: #9db0c0; font-size: 12px; }
+
+.hazard-card, .communication-panel { margin-top: 14px; padding: 16px; border-radius: 15px; background: #0a131c; border: 1px solid #20303e; }
+.hazard-head, .communication-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+.hazard-head h3, .communication-head h3 { margin:0 0 5px; font-size:14px; }
+.hazard-head p, .communication-head p { margin:0; color:#718497; font-size:12px; line-height:1.4; }
+.hazard-badge, .message-count { display:inline-flex; align-items:center; min-height:27px; padding:5px 9px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:.08em; border:1px solid #243746; }
+.hazard-badge.safe { color:#8fe6ae; background:#0d2118; border-color:#214a34; }
+.hazard-badge.warn { color:#ffd27a; background:#2a2110; border-color:#654d21; }
+.hazard-badge.critical { color:#ff9da7; background:#2b1317; border-color:#6c3139; }
+.hazard-metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
+.hazard-metrics > div { padding:10px; border:1px solid #1b2b38; border-radius:12px; background:#0d1822; }
+.hazard-metrics span { display:block; color:#718497; font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
+.hazard-metrics strong { display:block; margin-top:6px; color:#edf4fa; font-size:13px; }
+.message-feed { margin-top:10px; display:grid; gap:8px; max-height:190px; overflow:auto; }
+.message-empty { padding:14px; border:1px dashed #223544; border-radius:12px; color:#677c8e; font-size:12px; text-align:center; }
+.message-item { padding:11px 12px; border-radius:12px; border:1px solid #293945; background:#0d1822; }
+.message-item.critical { border-color:#66343b; background:#211316; }
+.message-item .message-top { display:flex; justify-content:space-between; gap:10px; font-size:11px; color:#718497; }
+.message-item strong { display:block; margin-top:6px; color:#eef4f9; font-size:12px; }
+.message-item p { margin:5px 0 0; color:#93a5b4; font-size:11px; line-height:1.45; }
+@media (max-width:620px){ .hazard-metrics { grid-template-columns:1fr; } }
