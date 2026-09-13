@@ -2,14 +2,33 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { command, trigger } = (await request.json()) as { command?: string; trigger?: string };
-    if (!command || !trigger) return NextResponse.json({ error: "command and trigger are required" }, { status: 400 });
+    const body = (await request.json()) as {
+      type?: "communication" | "hazard";
+      command?: string;
+      trigger?: string;
+      hazard?: string;
+      detail?: string;
+    };
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
-    if (!botToken || !chatId) return NextResponse.json({ error: "Telegram integration is not configured" }, { status: 503 });
+    if (!botToken || !chatId) {
+      return NextResponse.json({ error: "Telegram integration is not configured" }, { status: 503 });
+    }
 
-    const text = `🚨 Patient Alert: ${command}\nAction: ${trigger}`;
+    let text = "";
+    if (body.type === "hazard") {
+      if (!body.hazard || !body.detail) {
+        return NextResponse.json({ error: "hazard and detail are required" }, { status: 400 });
+      }
+      text = `🚨 CareGuard Safety Alert\nHazard: ${body.hazard}\n${body.detail}`;
+    } else {
+      if (!body.command || !body.trigger) {
+        return NextResponse.json({ error: "command and trigger are required" }, { status: 400 });
+      }
+      text = `🚨 Patient Alert: ${body.command}\nAction: ${body.trigger}`;
+    }
+
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
