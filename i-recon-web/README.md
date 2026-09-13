@@ -1,6 +1,6 @@
-# i-Recon Web — Local Facial Gesture Controls
+# i-Recon Web — Local Facial Gesture + Fall Hazard Detection
 
-This folder contains the standalone browser-based i-Recon facial gesture prototype and a small local Node.js server for caregiver Telegram alerts.
+This folder contains the standalone browser-based i-Recon facial gesture prototype, pose-based fall hazard detection, and a small local Node.js server for caregiver Telegram alerts.
 
 ## Run locally
 
@@ -26,9 +26,17 @@ Open `http://localhost:3000`.
 
 Check the server with `http://localhost:3000/health`.
 
-## Alert flow
+## Communication flow
 
-The browser never contains the Telegram bot token. Gesture commands are sent to `POST /send-alert` on the local server, and the server sends the alert to Telegram using the local environment variables.
+Facial gestures generate patient communication commands and add them to the Communication feed. A confirmed fall is treated as a critical Communication event and is also sent through `POST /send-alert` to the configured caregiver Telegram channel.
+
+The browser never contains the Telegram bot token. The local server reads the credentials from `.env` and sends the Telegram alert.
+
+## Fall detection
+
+MediaPipe Pose runs locally in the browser. The prototype combines rapid downward hip movement with a collapsed/horizontal posture and a short persistence window before creating a fall event. A 30-second cooldown prevents repeated alerts from the same incident.
+
+This is a prototype heuristic, not a clinically validated fall-detection model.
 
 ## Gesture mappings
 
@@ -41,4 +49,4 @@ The browser never contains the Telegram bot token. Gesture commands are sent to 
 
 ## Note
 
-This remains an engineering prototype and is not a medical device. Facial gesture thresholds should be calibrated and validated for the intended user.
+This remains an engineering prototype and is not a medical device. Facial gesture and fall thresholds should be calibrated and validated for the intended user and environment.
